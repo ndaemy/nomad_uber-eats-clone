@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      autoSchemaFile: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath:
+        process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.test',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -18,6 +20,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'nomad_uber_eats',
       entities: [],
       synchronize: true,
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
     }),
     RestaurantsModule,
   ],
