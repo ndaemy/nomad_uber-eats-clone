@@ -2,7 +2,7 @@
 
 The backend of Nomad Uber Eats clone
 
-## User Model:
+## User Entity:
 
 - id
 - createdAt
